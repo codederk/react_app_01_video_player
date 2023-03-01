@@ -1,70 +1,170 @@
-# Getting Started with Create React App
+# Video Player React App Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- App.js
 
-## Available Scripts
+```js
+import React, { useState } from "react";
+import Menu from "./components/Menu";
+import Video from "./components/Video";
 
-In the project directory, you can run:
+const VIDEOS = {
+  fast: "https://content.codecademy.com/courses/React/react_video-fast.mp4",
+  slow: "https://content.codecademy.com/courses/React/react_video-slow.mp4",
+  cute: "https://content.codecademy.com/courses/React/react_video-cute.mp4",
+  eek: "https://content.codecademy.com/courses/React/react_video-eek.mp4",
+};
 
-### `npm start`
+const App = () => {
+  const [src, setSrc] = useState("");
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+  const chooseVideo = (e) => {
+    setSrc(VIDEOS[e]);
+  };
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+  return (
+    <div className="container">
+      <h1>Video Player</h1>
+      <Menu chooseVideo={chooseVideo} />
+      <Video src={src} />
+    </div>
+  );
+};
 
-### `npm test`
+export default App;
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- index.js
 
-### `npm run build`
+```js
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./style.css";
+import App from "./App";
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Components
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Menu.js
 
-### `npm run eject`
+```js
+import React from "react";
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+const Menu = (props) => {
+  const handleClick = (e) => {
+    const text = e.target.value;
+    props.chooseVideo(text);
+  };
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  return (
+    <form>
+      <input
+        type="radio"
+        name="src"
+        value="fast"
+        id="fast"
+        onClick={handleClick}
+      />
+      <label htmlFor="fast">fast</label>
+      <input
+        type="radio"
+        name="src"
+        value="slow"
+        id="slow"
+        onClick={handleClick}
+      />
+      <label htmlFor="slow">slow</label>
+      <input
+        type="radio"
+        name="src"
+        value="cute"
+        id="cute"
+        onClick={handleClick}
+      />
+      <label htmlFor="cute">cute</label>
+      <input
+        type="radio"
+        name="src"
+        value="eek"
+        id="eek"
+        onClick={handleClick}
+      />
+      <label htmlFor="eek">eek</label>
+    </form>
+  );
+};
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+export default Menu;
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Video.js
 
-## Learn More
+```js
+import React from "react";
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+const Video = (props) => {
+  return (
+    <div>
+      <video src={props.src} controls autoPlay muted></video>
+    </div>
+  );
+};
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+export default Video;
+```
 
-### Code Splitting
+### Style
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- style.css
 
-### Analyzing the Bundle Size
+```css
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #8d8d8d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
-### Making a Progressive Web App
+.container {
+  background-color: #fff;
+  padding: 30px;
+  text-align: center;
+  border-radius: 4px;
+}
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+.container h1 {
+  text-decoration: underline;
+  margin-bottom: 24px;
+}
 
-### Advanced Configuration
+.container form {
+  margin-bottom: 12px;
+}
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+.container form input {
+  margin-right: 4px;
+}
 
-### Deployment
+.container form label {
+  margin-right: 16px;
+}
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+.container video {
+  width: 576px;
+  height: 300px;
+}
+```

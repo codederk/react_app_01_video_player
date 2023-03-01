@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import Menu from './components/Menu'
+import Video from './components/Video'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const VIDEOS = {
+  fast: 'https://content.codecademy.com/courses/React/react_video-fast.mp4',
+  slow: 'https://content.codecademy.com/courses/React/react_video-slow.mp4',
+  cute: 'https://content.codecademy.com/courses/React/react_video-cute.mp4',
+  eek: 'https://content.codecademy.com/courses/React/react_video-eek.mp4'
 }
 
-export default App;
+const App = () => { 
+
+  const [src, setSrc] = useState('')
+
+  const chooseVideo = (e) => {
+    setSrc(VIDEOS[e]);
+  }
+
+  return (
+    <div className='container'>
+      <h1>Video Player</h1>
+      <Menu chooseVideo={chooseVideo} />
+      <Video src={src} />
+    </div>
+  )
+}
+
+export default App
